@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://ks1w8t1snrj3"]
+
+[sub_resource type="Environment" id="Environment_121es"]
+background_mode = 1
+background_color = Color(0.690196, 1, 0.913725, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.686275, 0.698039, 0.709804, 1)
+ssao_radius = 8.0
+ssao_intensity = 1.0
+ssao_power = 0.989631
+ssao_detail = 0.0
+ssil_radius = 6.0
+ssil_intensity = 1.5
+ssil_sharpness = 0.91
+sdfgi_use_occlusion = true
+sdfgi_bounce_feedback = 0.54
+sdfgi_cascades = 3
+sdfgi_max_distance = 102.4
+sdfgi_y_scale = 0
+sdfgi_normal_bias = 1.5
+glow_strength = 1.15
+fog_enabled = true
+fog_light_color = Color(0.623529, 0.890196, 0.992157, 1)
+fog_sun_scatter = 0.5
+fog_sky_affect = 0.291
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[node name="WorldEnvironment" type="WorldEnvironment"]
+environment = SubResource("Environment_121es")

@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxk66pctlsi0x"]
+
+[ext_resource type="Script" path="res://scenes/menu.gd" id="1_lqq0a"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lqq0a")
+
+[node name="StartServer" type="Button" parent="."]
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 104.0
+offset_bottom = 36.0
+text = "Start Server"
+
+[node name="StartClient" type="Button" parent="."]
+offset_left = 4.0
+offset_top = 48.0
+offset_right = 104.0
+offset_bottom = 79.0
+text = "Start Client
+"
+
+[node name="NameEdit" type="LineEdit" parent="."]
+offset_left = 4.0
+offset_top = 93.0
+offset_right = 389.0
+offset_bottom = 124.0
+text = "Default"
+placeholder_text = "Enter name here..."
+
+[node name="IpEdit" type="LineEdit" parent="."]
+offset_left = 113.0
+offset_top = 48.0
+offset_right = 391.0
+offset_bottom = 79.0
+text = "localhost"
+placeholder_text = "Enter IP..."
+
+[connection signal="pressed" from="StartServer" to="." method="_on_start_server_pressed"]
+[connection signal="pressed" from="StartClient" to="." method="_on_start_client_pressed"]

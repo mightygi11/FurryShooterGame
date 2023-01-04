@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dmjefma3hmmru"
+path="res://.godot/imported/Chambering A Round-SoundBible.com-854171848.wav-5b50f8fb24a04c164e7ace417d452363.sample"
+
+[deps]
+
+source_file="res://sounds/Chambering A Round-SoundBible.com-854171848.wav"
+dest_files=["res://.godot/imported/Chambering A Round-SoundBible.com-854171848.wav-5b50f8fb24a04c164e7ace417d452363.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

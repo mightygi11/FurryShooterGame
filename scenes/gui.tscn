@@ -1,0 +1,196 @@
+[gd_scene load_steps=12 format=3 uid="uid://y86u6vxi6dl4"]
+
+[ext_resource type="Script" path="res://scenes/GUI.gd" id="1_3ncmh"]
+[ext_resource type="Theme" uid="uid://dew3twiqhugk0" path="res://other/text_theme.tres" id="2_08sgb"]
+
+[sub_resource type="Animation" id="Animation_i2uew"]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ReloadBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 100.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ReloadBar:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BulletCounter:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yu7yt"]
+_data = {
+"reload": SubResource("Animation_i2uew")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oqwcm"]
+bg_color = Color(0.733333, 0.537255, 0.588235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_col5w"]
+bg_color = Color(1, 0.333333, 0.470588, 1)
+
+[sub_resource type="Theme" id="Theme_cayw8"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_oqwcm")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_col5w")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkq16"]
+bg_color = Color(1, 0.335014, 0.469379, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acfj4"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_a0qdr"]
+resource_name = "health_shake"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_styles/fill")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [SubResource("StyleBoxFlat_acfj4"), SubResource("StyleBoxFlat_pkq16"), SubResource("StyleBoxFlat_acfj4"), SubResource("StyleBoxFlat_pkq16")]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1072, 0, 0, 0, 0, 1022, -0.25, 0, 0.25, 0, 1072, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.4)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ln2j5"]
+_data = {
+"health_shake": SubResource("Animation_a0qdr")
+}
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+script = ExtResource("1_3ncmh")
+metadata/_edit_use_anchors_ = true
+
+[node name="BulletCounter" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 48.0
+offset_right = 20.0
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_08sgb")
+text = "5"
+horizontal_alignment = 1
+
+[node name="ReloadBar" type="ProgressBar" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -59.5
+offset_top = 48.0
+offset_right = 59.5
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.0
+show_percentage = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ReloadBar"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_yu7yt")
+}
+
+[node name="Crosshair" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = 6.0
+offset_right = -5.99988
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = SubResource("Theme_cayw8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pkq16")
+max_value = 5.0
+value = 5.0
+fill_mode = 3
+show_percentage = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HealthBar"]
+libraries = {
+"": SubResource("AnimationLibrary_ln2j5")
+}
+
+[node name="ChatContainer" type="VBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -61.0
+offset_right = 569.0
+offset_bottom = -5.0
+grow_vertical = 0
+alignment = 2
+
+[node name="FPS" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "FPS: 60"

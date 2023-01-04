@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctejb5xr7v1fh"]
+
+[ext_resource type="Script" path="res://scenes/KeybindButton.gd" id="1_yyhfn"]
+
+[node name="Button" type="Button"]
+text = "Shoot ()"
+script = ExtResource("1_yyhfn")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

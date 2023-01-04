@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://burupcer67o06"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_1q08m"]
+[ext_resource type="Script" path="res://scripts/POVCamera.gd" id="2_ksplm"]
+[ext_resource type="PackedScene" uid="uid://y86u6vxi6dl4" path="res://scenes/gui.tscn" id="3_dhd7x"]
+[ext_resource type="PackedScene" uid="uid://g51i4ys84bxs" path="res://scenes/pause_menu.tscn" id="3_rjlmo"]
+[ext_resource type="PackedScene" uid="uid://du272rupa4g2u" path="res://scenes/player_model.tscn" id="4_20jde"]
+[ext_resource type="AudioStream" uid="uid://ctvhvv4hqscik" path="res://sounds/gunshot.wav" id="6_j14eq"]
+[ext_resource type="AudioStream" uid="uid://dmjefma3hmmru" path="res://sounds/Chambering A Round-SoundBible.com-854171848.wav" id="7_feyst"]
+[ext_resource type="AudioStream" uid="uid://chp6iif2qw76n" path="res://sounds/footstep2.wav" id="7_sj1ek"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3o6bi"]
+radius = 0.418417
+height = 1.79087
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_g6agy"]
+streams_count = 1
+stream_0/stream = ExtResource("6_j14eq")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_djgto"]
+streams_count = 1
+stream_0/stream = ExtResource("7_sj1ek")
+stream_0/weight = 1.0
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 3
+floor_max_angle = 1.0472
+script = ExtResource("1_1q08m")
+p_x_multi = 0.38
+p_x_add = 0.559
+p_y_multi = 0.977
+p_y_add = 0.3
+p_z_multi = -0.154
+p_z_add = 0.029
+bullet_speed = 20
+SPEED = 9.0
+
+[node name="PlayerCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_3o6bi")
+
+[node name="POVCamera" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.327848, 1.43811, 0)
+fov = 100.0
+script = ExtResource("2_ksplm")
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_rjlmo")]
+visible = false
+
+[node name="GUI" parent="." instance=ExtResource("3_dhd7x")]
+visible = false
+
+[node name="Username" type="Label3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2.084, 0)
+billboard = 1
+text = "Username"
+font_size = 48
+
+[node name="Character" parent="." instance=ExtResource("4_20jde")]
+transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, -0.0117027, 0.0864905, -0.0203527)
+
+[node name="GunshotAudio" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0342, 0)
+stream = SubResource("AudioStreamRandomizer_g6agy")
+
+[node name="FootstepAudio" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411631, 0)
+stream = SubResource("AudioStreamRandomizer_djgto")
+volume_db = -50.0
+pitch_scale = 1.27
+max_distance = 15.0
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="ReloadAudio" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0342, 0)
+stream = ExtResource("7_feyst")
+max_distance = 15.0
