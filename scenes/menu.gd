@@ -65,6 +65,7 @@ func update_usernames(i_usernames_list):
 		user.rpc("local_set_username", usernames_list[un])
 		
 func server_disconnect():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_node("/root/Main/AllMenus/Menu").visible = true
 	get_node("/root/Main/AllMenus/Menu/StartServer").disabled = false
 	get_node("/root/Main/AllMenus/Menu/StartClient").disabled = false

@@ -24,6 +24,7 @@ func _input(event):
 		waiting = false
 		text = action + ": (" + InputMap.action_get_events(action)[0].as_text() + ")"
 		return
+	InputMap.action_erase_events(action)
 	InputMap.action_add_event(action, event)
 	text = action + ": (" + event.as_text() + ")"
 	waiting = false

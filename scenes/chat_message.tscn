@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bagxi4x07n7ps"]
 
-[sub_resource type="Theme" id="Theme_7yn1s"]
+[sub_resource type="Theme" id="Theme_6q2dx"]
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0.490196)
@@ -12,5 +12,5 @@ Label/constants/shadow_outline_size = 5
 Label/font_sizes/font_size = 24
 
 [node name="ChatMessage" type="Label"]
-theme = SubResource("Theme_7yn1s")
+theme = SubResource("Theme_6q2dx")
 text = "Test"

@@ -229,6 +229,7 @@ func _input(event):
 			rpc("reload")
 	elif event.is_action_pressed("DEBUG_remove_player"):
 		multiplayer.multiplayer_peer = null
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_node("/root/Main/AllMenus/Menu").visible = true
 		get_node("/root/Main/AllMenus/Menu/StartServer").disabled = false
 		get_node("/root/Main/AllMenus/Menu/StartClient").disabled = false

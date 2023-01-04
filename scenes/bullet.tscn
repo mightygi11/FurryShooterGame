@@ -5,15 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://br3lf4o821xl4" path="res://textures/hitmarker.png" id="3_r6etj"]
 [ext_resource type="AudioStream" uid="uid://b0skubcddl7nh" path="res://sounds/hit.wav" id="4_kp34y"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcxcr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eslfc"]
 albedo_color = Color(0.972549, 0, 0.65098, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_mlncn"]
-material = SubResource("StandardMaterial3D_jcxcr")
+[sub_resource type="SphereMesh" id="SphereMesh_gq2qi"]
+material = SubResource("StandardMaterial3D_eslfc")
 radius = 0.1
 height = 0.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l5bxp"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qpnca"]
 transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("2_2x6if")
@@ -22,22 +22,22 @@ particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="QuadMesh" id="QuadMesh_kipkb"]
-material = SubResource("StandardMaterial3D_l5bxp")
+[sub_resource type="QuadMesh" id="QuadMesh_hyw8s"]
+material = SubResource("StandardMaterial3D_qpnca")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jj42n"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o0x1"]
 shading_mode = 0
 disable_ambient_light = true
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_0hsox"]
-material = SubResource("StandardMaterial3D_jj42n")
+[sub_resource type="CylinderMesh" id="CylinderMesh_0pusd"]
+material = SubResource("StandardMaterial3D_2o0x1")
 top_radius = 0.05
 bottom_radius = 0.05
 height = 0.2
 cap_top = false
 cap_bottom = false
 
-[sub_resource type="Animation" id="Animation_xmi6d"]
+[sub_resource type="Animation" id="Animation_k0c1y"]
 resource_name = "bullet_impact"
 length = 0.2
 tracks/0/type = "scale_3d"
@@ -67,12 +67,12 @@ tracks/2/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nweof"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fldsk"]
 _data = {
-"bullet_impact": SubResource("Animation_xmi6d")
+"bullet_impact": SubResource("Animation_k0c1y")
 }
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0keul"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmht0"]
 transparency = 1
 no_depth_test = true
 shading_mode = 0
@@ -83,10 +83,10 @@ billboard_mode = 1
 billboard_keep_scale = true
 fixed_size = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_3sf0u"]
-material = SubResource("StandardMaterial3D_0keul")
+[sub_resource type="QuadMesh" id="QuadMesh_lavk1"]
+material = SubResource("StandardMaterial3D_gmht0")
 
-[sub_resource type="Curve" id="Curve_wfqpm"]
+[sub_resource type="Curve" id="Curve_2kiyc"]
 max_value = 0.15
 _data = [Vector2(0, 0.0872727), 0.0, 1.04, 0, 0, Vector2(0.188312, 0.15), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.477273, 0.0, 0, 0]
 point_count = 3
@@ -97,7 +97,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 script = ExtResource("1_7yd5s")
 
 [node name="BulletMesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_mlncn")
+mesh = SubResource("SphereMesh_gq2qi")
 
 [node name="Particles" type="CPUParticles3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.217809, 0)
@@ -109,7 +109,7 @@ one_shot = true
 explosiveness = 1.0
 randomness = 0.7
 draw_order = 2
-mesh = SubResource("QuadMesh_kipkb")
+mesh = SubResource("QuadMesh_hyw8s")
 direction = Vector3(0, 1, 0)
 initial_velocity_min = 3.0
 initial_velocity_max = 3.0
@@ -120,12 +120,12 @@ scale_amount_max = 0.5
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.217809, 0)
 visible = false
 cast_shadow = 0
-mesh = SubResource("CylinderMesh_0hsox")
+mesh = SubResource("CylinderMesh_0pusd")
 skeleton = NodePath("../BulletRay")
 
 [node name="ImpactAnimator" type="AnimationPlayer" parent="ImpactMesh"]
 libraries = {
-"": SubResource("AnimationLibrary_nweof")
+"": SubResource("AnimationLibrary_fldsk")
 }
 
 [node name="BulletRay" type="RayCast3D" parent="."]
@@ -140,9 +140,9 @@ emitting = false
 amount = 1
 lifetime = 0.2
 one_shot = true
-mesh = SubResource("QuadMesh_3sf0u")
+mesh = SubResource("QuadMesh_lavk1")
 gravity = Vector3(0, 0, 0)
-scale_amount_curve = SubResource("Curve_wfqpm")
+scale_amount_curve = SubResource("Curve_2kiyc")
 
 [node name="HitAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_kp34y")

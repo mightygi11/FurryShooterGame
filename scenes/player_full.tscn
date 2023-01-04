@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://burupcer67o06" path="res://scenes/player.tscn" id="1_857my"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wtq84"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_m8uvx"]
 properties/0/path = NodePath("Player:rotation")
 properties/0/spawn = true
 properties/0/sync = true
@@ -21,4 +21,4 @@ properties/2/sync = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Networking"]
 root_path = NodePath("../..")
-replication_config = SubResource("SceneReplicationConfig_wtq84")
+replication_config = SubResource("SceneReplicationConfig_m8uvx")

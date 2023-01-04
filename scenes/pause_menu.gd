@@ -12,10 +12,8 @@ func _process(delta):
 
 
 func _on_mouse_sensitivity_drag_ended(value_changed):
-	emit_signal("mouse_sensitivity_changed", $MouseSensitivity.value)
-
-func _on_mouse_sensitivity_changed():
-	$Options/MSLabel.text = "Mouse Sensitivity (%s)" % $MouseSensitivity.value
+	emit_signal("mouse_sensitivity_changed", $Options/MouseSensitivity.value)
+	$Options/MSLabel.text = "Mouse Sensitivity (%s)" % $Options/MouseSensitivity.value
 
 
 func _on_keybinds_pressed():
