@@ -33,7 +33,7 @@ func _process(delta):
 		
 	if $BulletRay.is_colliding():
 		var collider = $BulletRay.get_collider()
-		if collider.is_in_group("map"):
+		if collider.is_in_group("map") or collider.is_in_group("object"):
 			position = $BulletRay.get_collision_point()
 			global_transform = look_at_with_y(global_transform, $BulletRay.get_collision_normal(),Vector3.UP)
 			$BulletMesh.visible = false

@@ -54,8 +54,7 @@ func delete_player(id):
 @rpc(any_peer, call_local, reliable)
 func set_username(id, un):
 	usernames_list[id] = un
-	rpc("update_usernames", usernames_list)
-	
+	rpc("update_usernames", usernames_list)	
 	
 @rpc(any_peer, call_local, reliable)
 func update_usernames(i_usernames_list):
@@ -70,15 +69,27 @@ func server_disconnect():
 	get_node("/root/Main/AllMenus/Menu/StartServer").disabled = false
 	get_node("/root/Main/AllMenus/Menu/StartClient").disabled = false
 	
+# FIX LATER!!!
+# Cannot sync car nodes between players.
+# Current workaround is it just finds the car node by its name
+# Means no spawning new cars, or even having more than 1 until fixed
+@rpc(any_peer, call_local, reliable)
+func set_car_authority(car, id):
+	car = get_node("/root/Main/Car") # Remove later and fix
+	car.set_multiplayer_authority(id)
+	print("Authority of %s is now %s" % [car, id])
+	
 @rpc(call_local, reliable)
 func mp_disconnect(id):
 	print("disconnected, " + str(id))
 	var p = get_node("/root/Main/Network/%s/Player" % multiplayer.get_unique_id())
-	p.get_node("GUI").send_chat("%s is leaving." % p.username)	
+	var p2 = get_node("/root/Main/Network/%s/Player" % id)
+	p.get_node("GUI").send_chat("%s is leaving." % p2.username)	
 	
 @rpc(call_local, reliable)
 func mp_connect(id):
 	print("connected, " + str(id))
 	var p = get_node("/root/Main/Network/%s/Player" % multiplayer.get_unique_id())
-	p.get_node("GUI").send_chat("%s is joining." % p.username)	
+	var p2 = get_node("/root/Main/Network/%s/Player" % id)
+	p.get_node("GUI").send_chat("%s is joining." % p2.username)	
 

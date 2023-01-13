@@ -35,6 +35,27 @@ offset_right = 326.0
 offset_bottom = 81.0
 text = "Change Keybinds"
 
+[node name="GameModes" type="VBoxContainer" parent="."]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -343.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="SelectGamemode" type="Label" parent="GameModes"]
+offset_right = 343.0
+offset_bottom = 26.0
+text = "Select Gamemode"
+horizontal_alignment = 2
+
+[node name="Lobby" type="Button" parent="GameModes"]
+offset_top = 30.0
+offset_right = 343.0
+offset_bottom = 61.0
+text = "Lobby"
+
 [node name="KeybindsMenu" type="ScrollContainer" parent="."]
 process_mode = 4
 visible = false

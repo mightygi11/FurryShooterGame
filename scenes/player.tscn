@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://burupcer67o06"]
+[gd_scene load_steps=13 format=3 uid="uid://burupcer67o06"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_1q08m"]
 [ext_resource type="Script" path="res://scripts/POVCamera.gd" id="2_ksplm"]
@@ -23,8 +23,11 @@ streams_count = 1
 stream_0/stream = ExtResource("7_sj1ek")
 stream_0/weight = 1.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_74u6w"]
+size = Vector3(3.37341, 2.1143, 2.67102)
+
 [node name="Player" type="CharacterBody3D" groups=["player"]]
-collision_layer = 3
+collision_layer = 6
 floor_max_angle = 1.0472
 script = ExtResource("1_1q08m")
 p_x_multi = 0.38
@@ -68,6 +71,7 @@ stream = SubResource("AudioStreamRandomizer_g6agy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411631, 0)
 stream = SubResource("AudioStreamRandomizer_djgto")
 volume_db = -50.0
+unit_size = 8.53
 pitch_scale = 1.27
 max_distance = 15.0
 attenuation_filter_cutoff_hz = 20500.0
@@ -76,3 +80,12 @@ attenuation_filter_cutoff_hz = 20500.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0342, 0)
 stream = ExtResource("7_feyst")
 max_distance = 15.0
+
+[node name="VehicleArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0342, 0)
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60637, 0)
+shape = SubResource("BoxShape3D_74u6w")

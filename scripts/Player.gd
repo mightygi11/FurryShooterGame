@@ -32,7 +32,7 @@ var last_position: Vector3 = Vector3(0,0,0)
 @export var max_health: int = 5
 @export var SPEED = 5.0
 
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 7
 
 var footstep_cooldown = 0
 var weapon = Weapon.new()
@@ -40,7 +40,7 @@ var reloading = false
 var health = max_health
 var jumping = true
 var paused = false
-
+var current_vehicle: RigidBody3D = null
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -104,6 +104,7 @@ func _enter_tree():
 		gun_meshes.get_node("MPDisplayPistol").cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 		gun_meshes.get_node("Pistol").visible = true
 		footstep_vol_mod = 0
+		collision_layer += 1
 		$POVCamera.current = true
 		$GUI/BulletCounter.text = str(weapon.mag_loaded)
 		reload_bar = $GUI/ReloadBar
@@ -126,32 +127,43 @@ func _ready():
 func _process(delta):
 	
 	if !is_local_authority():
-		velocity = sync_velocity
-		position = sync_position
-		
-		animator["parameters/MovementDirection/blend_position"].x = sync_velocity.z
-		animator["parameters/MovementDirection/blend_position"].y = sync_velocity.x
-		animator["parameters/Lean/blend_position"].x = sync_velocity.z
-		animator["parameters/Lean/blend_position"].y = sync_velocity.x
-		# If using sync variables:
-		# - Set the current position and such to the sync variable
-		# - NOT move_and_slide()
-		# - NOT update the sync variables to keep syncing with others
-		return
+		if current_vehicle != null:
+			position = current_vehicle.position + Vector3(0, 0, 0)
+		else:
+			velocity = sync_velocity
+			position = sync_position
+			
+			animator["parameters/MovementDirection/blend_position"].x = sync_velocity.z
+			animator["parameters/MovementDirection/blend_position"].y = sync_velocity.x
+			animator["parameters/Lean/blend_position"].x = sync_velocity.z
+			animator["parameters/Lean/blend_position"].y = sync_velocity.x
+			# If using sync variables:
+			# - Set the current position and such to the sync variable
+			# - NOT move_and_slide()
+			# - NOT update the sync variables to keep syncing with others
+			return
 		
 	# Respawn if too low
 	if global_position.y < -2:
 		rpc("die", multiplayer.get_unique_id())
 		
+	# Car controls
+	if current_vehicle != null:
+		position = current_vehicle.position + Vector3(0, 0, 0)
+
+		if !paused:
+			current_vehicle.do_car_input(Input.get_vector("move_backward", "move_forward", "move_left", "move_right"), delta)
+		return
+		
 	# Add the gravity
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		velocity.y -= gravity * 2 * delta
 
 	# Handle jump if unpaused
 	if Input.is_action_just_pressed("jump") and is_on_floor() and !paused:
 		velocity.y = JUMP_VELOCITY
 		rpc("set_jumping", true)
-		
+	
 	# Get the input direction and handle the movement if unpaused
 	if !paused:
 		var input_dir = Input.get_vector("move_backward", "move_forward", "move_left", "move_right")
@@ -159,8 +171,8 @@ func _process(delta):
 		if direction.length() > 1:
 			direction = direction.normalized()
 		if direction:
-			velocity.x += direction.x * SPEED * 0.05
-			velocity.z += direction.z * SPEED * 0.05
+			velocity.x += direction.x * SPEED * 0.08
+			velocity.z += direction.z * SPEED * 0.08
 	velocity.x *= 0.95
 	velocity.z *= 0.95
 
@@ -227,6 +239,23 @@ func _input(event):
 	elif event.is_action_pressed("reload"):
 		if weapon.mag_loaded != weapon.mag_size:
 			rpc("reload")
+	if event.is_action_pressed("control_vehicle"):
+		if current_vehicle != null:
+			
+			current_vehicle.rpc("set_rider", null)
+			collision_layer += 1
+		else:
+			print("trying to get in vehicle...")
+			var bodies = $VehicleArea.get_overlapping_bodies()
+			if len(bodies) != 0:
+				var car = bodies[0]
+				print(car)
+				print(car.get_groups())
+				if car.is_in_group("car"):
+					collision_layer -= 1
+					car.rpc("set_rider", multiplayer.get_unique_id())
+					print("getting in vehicle %s" % current_vehicle)
+					
 	elif event.is_action_pressed("DEBUG_remove_player"):
 		multiplayer.multiplayer_peer = null
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -264,6 +293,8 @@ func damage(shooter_id):
 func die(shooter_id):
 	print("%s died! They were shot by %s." % [username, get_user_from_id(shooter_id)])
 	get_node("/root/Main/Network/%s/Player/GUI" % multiplayer.get_unique_id()).send_chat("%s died! They were shot by %s." % [username, get_user_from_id(shooter_id)])
+	if current_vehicle != null:
+		current_vehicle.rpc("set_rider", null)
 	respawn()	
 
 func respawn():

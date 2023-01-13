@@ -5,19 +5,18 @@ var keybind_button = preload("res://scenes/keybind_button.tscn")
 
 signal mouse_sensitivity_changed(new_val)
 # Called when the node enters the scene tree for the first time.
+	
+func _ready():
+	$GameModes.visible = multiplayer.is_server()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
-func _on_mouse_sensitivity_drag_ended(value_changed):
+func _on_mouse_sensitivity_drag_ended(_value_changed):
 	emit_signal("mouse_sensitivity_changed", $Options/MouseSensitivity.value)
 	$Options/MSLabel.text = "Mouse Sensitivity (%s)" % $Options/MouseSensitivity.value
 
 
 func _on_keybinds_pressed():
 	$Options.visible = false
+	$GameModes.visible = false
 	$KeybindsMenu.visible = true
 	$KeybindsMenu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -30,6 +29,7 @@ func _on_keybinds_pressed():
 
 func _on_hidden():
 	$Options.visible = true
+	$GameModes.visible = multiplayer.is_server()
 	$KeybindsMenu.visible = false
 	$KeybindsMenu.process_mode = Node.PROCESS_MODE_DISABLED
 	for btn in $KeybindsMenu/KeybindsList.get_children():

@@ -1,0 +1,111 @@
+[gd_scene load_steps=7 format=3 uid="uid://b85qgfjjdl8v0"]
+
+[ext_resource type="Script" path="res://scenes/Car.gd" id="1_5kf7g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8h5i3"]
+radius = 0.656
+height = 3.574
+
+[sub_resource type="BoxMesh" id="BoxMesh_sw754"]
+size = Vector3(2, 1, 1.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ttnar"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g3lph"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8jh47"]
+height = 0.236
+
+[node name="Car" type="VehicleBody3D" groups=["car", "object"]]
+collision_layer = 15
+mass = 300.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -0.35, 0)
+gravity_scale = 1.39
+angular_velocity = Vector3(1.0472, 1.0472, 1.0472)
+script = ExtResource("1_5kf7g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.293879, 0)
+shape = SubResource("CapsuleShape3D_8h5i3")
+
+[node name="CarMesh" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_sw754")
+skeleton = NodePath("../../World/WaterBooster")
+
+[node name="CarMeshPointer" type="MeshInstance3D" parent="CollisionShape3D/CarMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.14799, 0, 0)
+mesh = SubResource("BoxMesh_ttnar")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_g3lph")
+
+[node name="FRWheel" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 1, -0.206225, 1)
+use_as_traction = true
+use_as_steering = true
+wheel_roll_influence = 0.0
+wheel_rest_length = 0.25
+wheel_friction_slip = 4.0
+suspension_travel = 0.3
+suspension_stiffness = 30.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="WheelMesh" type="MeshInstance3D" parent="FRWheel"]
+transform = Transform3D(-4.37114e-08, 1, -1.31134e-07, -1, -4.37114e-08, -1.31134e-07, -1.31134e-07, 1.31134e-07, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_8jh47")
+
+[node name="FLWheel" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 1, -0.206225, -1)
+use_as_traction = true
+use_as_steering = true
+wheel_roll_influence = 0.0
+wheel_rest_length = 0.25
+wheel_friction_slip = 4.0
+suspension_travel = 0.3
+suspension_stiffness = 30.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="WheelMesh" type="MeshInstance3D" parent="FLWheel"]
+transform = Transform3D(-4.37114e-08, 1, -1.31134e-07, -1, -4.37114e-08, -1.31134e-07, -1.31134e-07, 1.31134e-07, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_8jh47")
+
+[node name="BRWheel" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -1, -0.206225, 1)
+use_as_traction = true
+wheel_roll_influence = 0.0
+wheel_rest_length = 0.25
+wheel_friction_slip = 4.0
+suspension_travel = 0.3
+suspension_stiffness = 50.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="WheelMesh" type="MeshInstance3D" parent="BRWheel"]
+transform = Transform3D(-4.37114e-08, 1, -1.31134e-07, -1, -4.37114e-08, -1.31134e-07, -1.31134e-07, 1.31134e-07, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_8jh47")
+
+[node name="BLWheel" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -1, -0.206225, -1)
+use_as_traction = true
+wheel_roll_influence = 0.0
+wheel_rest_length = 0.25
+wheel_friction_slip = 4.0
+suspension_travel = 0.3
+suspension_stiffness = 50.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="WheelMesh" type="MeshInstance3D" parent="BLWheel"]
+transform = Transform3D(-4.37114e-08, 1, -1.31134e-07, -1, -4.37114e-08, -1.31134e-07, -1.31134e-07, 1.31134e-07, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_8jh47")
